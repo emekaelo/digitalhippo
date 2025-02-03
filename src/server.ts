@@ -30,3 +30,5 @@
 //
 // start();
 // TODO: uninstall express and nodemon dependencies
+// TODO: remove tsconfig.server.json, server.ts, get-payload.ts,nodemon.json
+// TODO: remove .idea from git
