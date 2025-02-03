@@ -14,8 +14,8 @@ import {
   AuthCredentialsValidator,
   TAuthCredentialsValidator,
 } from "@/src/lib/validators/account-credentials-validator";
+import { trpc } from "@/src/trpc/client";
 
-// export default function Page() {
 const Page = () => {
   const {
     register,
@@ -24,6 +24,9 @@ const Page = () => {
   } = useForm<TAuthCredentialsValidator>({
     resolver: zodResolver(AuthCredentialsValidator),
   });
+
+  const { data } = trpc.anyApiRoute.useQuery();
+  console.log(data);
 
   const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {};
 
@@ -48,46 +51,47 @@ const Page = () => {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        </div>
-      </div>
+          <div className="grid gap-6">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="grid gap-2">
+                <div className="grid gap-1 py-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    {...register("email")}
+                    className={cn({
+                      "focus-visible:ring-red-500": errors.email,
+                    })}
+                    placeholder="you@example.com"
+                  />
+                  {errors?.email && (
+                    <p className="text-sm text-red-500">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
 
-      <div className="grid gap-6">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid gap-2">
-            <div className="grid gap-1 py-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                {...register("email")}
-                className={cn({
-                  "focus-visible:ring-red-500": errors.email,
-                })}
-                placeholder="you@example.com"
-              />
-              {errors?.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
-              )}
-            </div>
+                <div className="grid gap-1 py-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    {...register("password")}
+                    type="password"
+                    className={cn({
+                      "focus-visible:ring-red-500": errors.password,
+                    })}
+                    placeholder="Password"
+                  />
+                  {errors?.password && (
+                    <p className="text-sm text-red-500">
+                      {errors.password.message}
+                    </p>
+                  )}
+                </div>
 
-            <div className="grid gap-1 py-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                {...register("password")}
-                type="password"
-                className={cn({
-                  "focus-visible:ring-red-500": errors.password,
-                })}
-                placeholder="Password"
-              />
-              {errors?.password && (
-                <p className="text-sm text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
-
-            <Button>Sign up</Button>
+                <Button>Sign up</Button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </>
   );
