@@ -49,5 +49,5 @@ const start = async () => {
 };
 
 start();
-// TODO: remove tsconfig.server.json, server.ts, get-payload.ts,nodemon.json
+// TODO: remove get-payload.ts
 // TODO: remove .idea from git
