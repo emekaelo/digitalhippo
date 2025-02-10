@@ -6,6 +6,7 @@ import sharp from "sharp";
 import { Users } from "./collections/Users";
 import dotenv from "dotenv";
 import { fileURLToPath } from "url";
+import { resendAdapter } from "@payloadcms/email-resend";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -38,6 +39,11 @@ export default buildConfig({
       ],
     },
   },
+  email: resendAdapter({
+    defaultFromAddress: "onboarding@resend.dev",
+    defaultFromName: "DigitalHippo",
+    apiKey: process.env.RESEND_API_KEY || "",
+  }),
   sharp,
   editor: slateEditor({}),
   db: mongooseAdapter({
